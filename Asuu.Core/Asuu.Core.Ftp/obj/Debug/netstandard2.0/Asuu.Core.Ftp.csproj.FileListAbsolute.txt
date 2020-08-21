@@ -1,0 +1,9 @@
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\bin\Debug\netstandard2.0\Asuu.Core.Ftp.deps.json
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\bin\Debug\netstandard2.0\Asuu.Core.Ftp.dll
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\obj\Debug\netstandard2.0\Asuu.Core.Ftp.csprojAssemblyReference.cache
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\obj\Debug\netstandard2.0\Asuu.Core.Ftp.AssemblyInfoInputs.cache
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\obj\Debug\netstandard2.0\Asuu.Core.Ftp.AssemblyInfo.cs
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\bin\Debug\netstandard2.0\Asuu.Core.Ftp.pdb
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\obj\Debug\netstandard2.0\Asuu.Core.Ftp.csproj.CoreCompileInputs.cache
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\obj\Debug\netstandard2.0\Asuu.Core.Ftp.dll
+F:\ghub\ark\ARK-DedicatedServerUpdateUtility\Asuu.Core\Asuu.Core.Ftp\obj\Debug\netstandard2.0\Asuu.Core.Ftp.pdb
