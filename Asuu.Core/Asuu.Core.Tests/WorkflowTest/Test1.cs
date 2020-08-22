@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Microsoft.VisualBasic.CompilerServices;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Asuu.Core.Tests.WorkflowTests
 {
@@ -26,6 +27,33 @@ namespace Asuu.Core.Tests.WorkflowTests
             public string FullPath;
         }
 
+        internal class ModComparer : IEqualityComparer<ModInfo>
+        {
+            public bool Equals([AllowNull] ModInfo x, [AllowNull] ModInfo y)
+            {
+                //Check whether the compared objects reference the same data.
+                if (Object.ReferenceEquals(x, y)) return true;
+
+                //Check whether any of the compared objects is null.
+                if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                    return false;
+
+                return x.FileName == y.FileName;
+            }
+
+            public int GetHashCode([DisallowNull] ModInfo obj)
+            {
+                //Check whether the object is null
+                if (Object.ReferenceEquals(obj, null)) return 0;
+
+                //Get hash code for the Name field if it is not null.
+                int hasObjName = obj.FileName == null ? 0 : obj.FileName.GetHashCode();
+
+                //Calculate the hash code for the product.
+                return hasObjName;
+            }
+        }
+
         internal class WorkflowInfo 
         {
             public WorkflowSteps _initialStep = WorkflowSteps.GET_HISTORY;
@@ -38,7 +66,11 @@ namespace Asuu.Core.Tests.WorkflowTests
             public FileInfo[] SourceFiles;
             public FileInfo[] DestinationFiles;
             public FileInfo[] HistoryList;
-            
+
+            public ModInfo[] SourceMods;
+            public ModInfo[] ModChangeHistory;
+            public List<ModInfo> UpdatedMods;
+
             public DirectoryInfo directoryInfo;
         }
 
@@ -53,8 +85,6 @@ namespace Asuu.Core.Tests.WorkflowTests
             workflow.workflowSteps.Enqueue(workflow._initialStep);
 
             workflow.directoryInfo = new DirectoryInfo(workflow.Source);
-
-            workflow.SourceFiles = workflow.directoryInfo.GetFiles("*.mod", SearchOption.TopDirectoryOnly);
         }
         [TestMethod]
         public void ProcessTest()
@@ -64,9 +94,11 @@ namespace Asuu.Core.Tests.WorkflowTests
                 Process();
             }
             while (workflow.workflowSteps.Peek() != WorkflowSteps.COMPLETE);
+
             Assert.IsTrue(workflow.workflowSteps.Peek() == WorkflowSteps.COMPLETE);
         }
 
+        
         private void Process()
         {
             var _nextStep = workflow.workflowSteps.Dequeue() switch
@@ -78,7 +110,9 @@ namespace Asuu.Core.Tests.WorkflowTests
                 WorkflowSteps.COMPARE => Compare(),
                 WorkflowSteps.ADD_NEW => Insert(),
                 WorkflowSteps.UPDATE_CURRENT => Update(),
-                WorkflowSteps.UNKNOWN => throw new ArgumentException("unknown arugment")
+                WorkflowSteps.UNKNOWN => throw new ArgumentException("unknown arugment"),
+                WorkflowSteps.COMPLETE => throw new NotImplementedException(),
+                _ => throw new NotImplementedException()
             };
 
              workflow.workflowSteps.Enqueue(_nextStep);
@@ -96,9 +130,23 @@ namespace Asuu.Core.Tests.WorkflowTests
 
         private WorkflowSteps GetSource()
         {
-           
+            workflow.SourceFiles = workflow.directoryInfo.GetFiles("*.mod", SearchOption.TopDirectoryOnly);
 
-            return WorkflowSteps.COMPLETE;
+            var tempList = new List<ModInfo>();
+
+            foreach (var file in workflow.SourceFiles)
+            {
+                tempList.Add(new ModInfo 
+                {
+                    FileName = file.Name,
+                    LastWriteDate = file.LastWriteTime,
+                    FullPath = file.@FullName
+                });
+            }
+
+            workflow.SourceMods = tempList.ToArray();
+
+            return WorkflowSteps.COMPARE;
         }
 
         private WorkflowSteps GetHistory()
@@ -107,9 +155,8 @@ namespace Asuu.Core.Tests.WorkflowTests
             {
                 using var reader = File.OpenText(workflow.History);                
                 var serializer = new JsonSerializer();
-                var mods = (ModInfo[])serializer.Deserialize(reader, typeof(ModInfo[]));
-
-                return WorkflowSteps.GET_SOURCE_LIST;
+                workflow.ModChangeHistory = (ModInfo[])serializer.Deserialize(reader, typeof(ModInfo[]));
+                reader.Close();
             }
 
             return WorkflowSteps.GET_SOURCE_LIST;
@@ -156,7 +203,36 @@ namespace Asuu.Core.Tests.WorkflowTests
 
         private WorkflowSteps Compare()
         {
-            throw new NotImplementedException();
+            var sourceMods = workflow.SourceMods.ToList();
+            var changeHistory = workflow.ModChangeHistory.ToList();
+            var modsToChange = new List<ModInfo>();
+            var modCompare = new ModComparer();
+            workflow.UpdatedMods = new List<ModInfo>();
+
+            sourceMods.ForEach(mod =>
+            {
+                var updatedMod = changeHistory
+                    .Select(change => change)
+                    .Where(change => change.FileName == mod.FileName && DateTime
+                    .Compare(mod.LastWriteDate, change.LastWriteDate) == 1);
+
+                if(updatedMod.ToList().Count > 0)
+                {
+                    updatedMod.ToList()[0].LastWriteDate = mod.LastWriteDate;
+                }
+
+                modsToChange.AddRange(updatedMod);
+
+                if (!changeHistory.Contains(mod, modCompare))
+                {
+                    // new mod
+                    modsToChange.Add(mod);
+                }
+            });
+
+            workflow.UpdatedMods.AddRange(modsToChange);
+
+            return WorkflowSteps.COMPLETE;
         }
     }
 }
