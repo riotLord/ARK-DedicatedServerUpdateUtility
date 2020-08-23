@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj": {}
+    "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj": {}
   },
   "projects": {
-    "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj": {
+    "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj",
+        "projectUniqueName": "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj",
         "projectName": "Asuu.Core.Ftp",
-        "projectPath": "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj",
+        "projectPath": "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj",
         "packagesPath": "C:\\Users\\almig\\.nuget\\packages\\",
-        "outputPath": "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\obj\\",
+        "outputPath": "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -26,8 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.telerik.com/nuget": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netstandard2.0": {

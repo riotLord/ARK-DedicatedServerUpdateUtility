@@ -32,6 +32,11 @@ namespace Asuu.Core.Ftp.Services
 			};
 		}
 
+		#region read & compare
+		
+
+		#endregion
+
         #region download examples
         public static void DownloadFile(string source, string destination, string fileName)
 		{

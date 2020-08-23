@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OC/ViquC6yVuwkrBGKD0PpjrIMlTq8rr0VLVnAQ5esysRSjz9LXs+4F6bLZSP9RXbp0i7XBvXqEBWHYSpGCPIg==",
+  "dgSpecHash": "F4hoXzYeAcggItDTza5k5kRCa3cz/6oVHC5ApEwSfejiDq8TAIadJF6GwN1rqrfPQ5WVUYDYVz7R1nTHgwA5Bg==",
   "success": true,
-  "projectFilePath": "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj",
+  "projectFilePath": "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Ftp\\Asuu.Core.Ftp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\almig\\.nuget\\packages\\fluentftp\\32.4.3\\fluentftp.32.4.3.nupkg.sha512",
     "C:\\Users\\almig\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
