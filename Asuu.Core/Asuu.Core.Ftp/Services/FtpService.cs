@@ -2,6 +2,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 using FluentFTP;
 #endregion
 
@@ -32,61 +34,80 @@ namespace Asuu.Core.Ftp.Services
 			};
 		}
 
-		#region read & compare
-		
-
-		#endregion
-
-        #region download examples
-        public static void DownloadFile(string source, string destination, string fileName)
+		#region requests		
+		public List<(string,DateTime,string)> GetRemoteList(string location, string filter)
 		{
-			using (var ftp = new FtpClient("127.0.0.1", "ftptest", "ftptest"))
+			using var session = GetSession();
+			session.SetWorkingDirectory(location);
+			session.Connect();
+
+			try 
 			{
-				ftp.Connect();
-
-				// define the progress tracking callback
-				Action<FtpProgress> progress = delegate (FtpProgress p) {
-					if (p.Progress == 1)
-					{
-						// all done!
-					}
-					else
-					{
-						//percent done = (p.Progress * 100)
-					}
-				};
-
-				// download a file with progress tracking
-				ftp.DownloadFile($@"{source}{fileName}", $"/{destination}{fileName}", FtpLocalExists.Overwrite, FtpVerify.None, progress);
-
+				var remoteList = session
+					.GetListing()
+					.Where(item => item.Type == FtpFileSystemObjectType.File)
+					.Select(item => (item.Name, item.Modified, item.FullName))
+					.ToList();
+				
+				return remoteList;
+			}
+			catch (FtpException)
+			{
+				return new List<(string,DateTime,string)>();
+			}
+			finally
+			{
+				session.Dispose();
 			}
 		}
-        #region async
-        public static async Task DownloadFileAsync(string source, string destination, string fileName)
-		{
-			var token = new CancellationToken();
-			using (var ftp = new FtpClient("127.0.0.1", "ftptest", "ftptest"))
-			{
-				await ftp.ConnectAsync(token);
+		#endregion
 
-				// define the progress tracking callback
-				Progress<FtpProgress> progress = new Progress<FtpProgress>(p => {
-					if (p.Progress == 1)
+		#region upload
+		/// <summary>
+		/// Upload only newer files
+		/// This will not work, need to add more info on destination as its per file and multiple sub directories.
+		/// May be easier to just do a blind upload until I figure out a way to address this.
+		/// </summary>
+		public void UploadFiles (string source, string destination, List<( string, DateTime, string )> files)
+		{
+			using var session = GetSession();
+			session.SetWorkingDirectory(destination);
+			session.Connect();	
+			
+			try 
+			{
+				files.ForEach(file => 
+				{ 
+					if (session.FileExists($"{destination}{file.Item1}"))
 					{
-						// all done!
+						var modifiedDate = session.GetModifiedTime($"{destination}{file.Item1}");
+						var remoteFileOlder = modifiedDate.CompareTo(file.Item2);
+						
+						if(remoteFileOlder != 1)
+						{
+							session.UploadFile(file.Item3, $"{destination}{file.Item1}", FtpRemoteExists.Overwrite);
+						}
 					}
-					else
+					else 
 					{
-						// percent done = (p.Progress * 100)
+						session.UploadFile(file.Item3, $"{destination}{file.Item1}", FtpRemoteExists.Overwrite);
 					}
 				});
-
-				// download a file and ensure the local directory is created
-				await ftp.DownloadFileAsync($@"{source}{fileName}", $"/{destination}{fileName}", FtpLocalExists.Append, FtpVerify.None, progress, token);
-
+			}
+			catch(FtpException)
+			{
+				throw;
+			}
+			finally
+			{
+				session.Dispose();
 			}
 		}
 		#endregion
-		#endregion
+
+		internal FtpClient GetSession() 
+		{
+			return new FtpClient(_config.hostIp, _config.userId, _config.password);
+		} 
 	}
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cpluYvID+ygNW96MNLy36/8bvFGR2Fb9TIYEtejIwRsxxVXEUpfJSzBj/reezk4Qi4f3A9e+d7tKV2KRwpcuHw==",
+  "dgSpecHash": "Z2QLEB6iHR2yhxnyKqnSujp+r+fWEj+R08njUFHNPvnhcBWMYnn1wDpRX53zANwuK9Q5oxGeV2lqsRcjzosvJA==",
   "success": true,
-  "projectFilePath": "F:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Tests\\Asuu.Core.Tests.csproj",
+  "projectFilePath": "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Tests\\Asuu.Core.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\almig\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",
     "C:\\Users\\almig\\.nuget\\packages\\fluentftp\\32.4.3\\fluentftp.32.4.3.nupkg.sha512",

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "fHJYBXYkiRWoHZ6bW3V5lORV15XvyA6OqSplHVWkYIiXHs5Hmd/YIejA4bhAi2R6u2F5kQHbzGKyz/PGf20SeQ==",
+  "success": true,
+  "projectFilePath": "f:\\ghub\\ark\\ARK-DedicatedServerUpdateUtility\\Asuu.Core\\Asuu.Core.Workflow\\Asuu.Core.Workflow.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\almig\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\almig\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
